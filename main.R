@@ -2,7 +2,7 @@
 # Code for Stats Class - Week 5
 # Author: Marylis Fantoni
 # E-mail: mfantoni@byu.edu
-# Date: 08/2025
+# Date 08/2025
 ##### ---------------------------------------------------------------------####
 # 0.SYSTEM SETUP
 
@@ -45,47 +45,72 @@ demographics$age[demographics$age > 85] <- 85
 
 demographics <- as.data.frame(demographics)
 
-# use a couple of codes to see the structure of your dataset. What did you learn about it?
+# use a couple of codes to see the structure of your dataset.
+# What did you learn about it?
 summary(demographics)
 glimpse(demographics)
 names(demographics)
 
+# The dataset has 500 rows and 5 variables:
+#   gender, marital_status, age, race
+
+# The gender variable has two levels:
+#   Female and Male
+
+# The marital_status variable has four levels:
+#   Married, Divorced, Separated, and Never Married
+
+# The age variable has a range of 18 to 85 years
+
+# The race variable has five levels:
+#   White, Black, Hispanic, Asian, and Other
+
 # now let's create a contingency table similar to the one from our class:
-table(data$gender, data$marital_status)
+table(demographics$gender, demographics$marital_status)
 
 # MARGINAL PROBABILITY
 # what's the probability a randomly selected adult is female?
-mean(data$gender == "Female")
+mean(demographics$gender == "Female")
+# The probability that a randomly selected adult is female is 0.542.
 
 # what's the probability a randomly selected adult is married?
-
+mean(demographics$marital_status == "Married")
+# The probability that a randomly selected adult is married is 0.544.
 
 # JOINT PROBABILITY
 # what's the probability an adult is Female and Married? (independent)
-mean(data$gender == "Female" & data$marital_status == "Married")
+mean(demographics$gender == "Female" & demographics$marital_status == "Married")
+# The probability that an adult is Female and Married is 0.294.
 
 # what's the probability an adult is Hispanic and Never Married?
-
+mean(demographics$race == "Hispanic" & demographics$marital_status == "Never Married")
+# The probability that an adult is Hispanic and Never Married is 0.090.
 
 # UNION PROBABILITY
 # what's the probability an adult is Male or Never Married?
-mean(data$gender == "Male" | data$marital_status == "Never Married")
+mean(demographics$gender == "Male" | demographics$marital_status == "Never Married")
+# The probability that an adult is Male or Never Married is 0.706.
 
 # what's the probability an adult is under 30 or Asian?
+mean(demographics$age < 30 | demographics$race == "Asian")
+# The probability that an adult is under 30 or Asian is 0.230.
 
 
 # CONDITIONAL PROBABILITY
 # what's the probability an adult is Married given that they are Female?
-mean(data$marital_status[data$gender == "Female"] == "Married")
+mean(demographics$marital_status[demographics$gender == "Female"] == "Married")
+# The probability that an adult is Married given Female is 0.5424354.
 
 # what's the probability an adult is Never Married given that they are under 30?
+mean(demographics$marital_status[demographics$age < 30] == "Never Married")
+# The probability that an adult is Never Married given under 30 is 0.4880952.
 
 
 # now let's create a conditional probability table
-prop.table(table(data$gender, data$marital_status), margin = 1)
+prop.table(table(demographics$gender, demographics$marital_status), margin = 1)
 
 # this is a joint probability table (independent)
-prop.table(table(data$gender, data$marital_status))
+prop.table(table(demographics$gender, demographics$marital_status))
 
 
 # why are these tables different?
@@ -117,12 +142,12 @@ dt <- dt[order(dt$age), ]
 duplicated(dt$id)
 
 # using dplyr and summarize
-dt %>%
-  group_by(gender) %>%
+dt |>
+  group_by(gender) |>
   summarize(mean_age = mean(age, na.rm = TRUE))
 
-dt %>%
-  filter(age == "18") %>%
+dt |>
+  filter(age == "18") |>
   summarize(count = n())
 
 
