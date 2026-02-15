@@ -114,7 +114,10 @@ prop.table(table(demographics$gender, demographics$marital_status))
 
 
 # why are these tables different?
-
+# Because `margin = 1` is used to calculate the marginal probabilities,
+# which are the probabilities of each variable independently.
+# In contrast, not using `margin = 1` calculates the joint probabilities,
+# which are the probabilities of both variables occurring together.
 
 ##### ---------------------------------------------------------------------####
 # Goal 2: Advanced cleaning
